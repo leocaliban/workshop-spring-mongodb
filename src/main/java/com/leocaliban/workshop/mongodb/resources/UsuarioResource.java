@@ -1,6 +1,7 @@
 package com.leocaliban.workshop.mongodb.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leocaliban.workshop.mongodb.domain.Usuario;
+import com.leocaliban.workshop.mongodb.dto.UsuarioDTO;
 import com.leocaliban.workshop.mongodb.services.UsuarioService;
 
 @RestController
@@ -19,9 +21,10 @@ public class UsuarioResource {
 	private UsuarioService service;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<List<Usuario>> buscarTodos(){
+	public ResponseEntity<List<UsuarioDTO>> buscarTodos(){
 		List<Usuario> lista = service.buscarTodos();
-		return ResponseEntity.ok().body(lista);
+		List<UsuarioDTO> listaDTO = lista.stream().map(x -> new UsuarioDTO(x)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listaDTO);
 	}
 
 }
