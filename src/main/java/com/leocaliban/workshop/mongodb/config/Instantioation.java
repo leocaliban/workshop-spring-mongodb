@@ -1,24 +1,35 @@
 package com.leocaliban.workshop.mongodb.config;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 
+import com.leocaliban.workshop.mongodb.domain.Post;
 import com.leocaliban.workshop.mongodb.domain.Usuario;
+import com.leocaliban.workshop.mongodb.repository.PostRepository;
 import com.leocaliban.workshop.mongodb.repository.UsuarioRepository;
 
 @Configuration
 public class Instantioation implements CommandLineRunner{
 	
 	@Autowired
-	private UsuarioRepository repository;
+	private PostRepository postRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		
-		repository.deleteAll();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+		sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+		
+		usuarioRepository.deleteAll();
+		postRepository.deleteAll();
 
 		Usuario usuario1 = new Usuario(null, "Rafael Oliveira", "ro@gmail.com");
 		Usuario usuario2 = new Usuario(null, "Michelle Rodriguez", "mr@gmail.com");
@@ -27,8 +38,11 @@ public class Instantioation implements CommandLineRunner{
 		Usuario usuario5 = new Usuario(null, "Kim Bauer", "kim@gmail.com");
 		Usuario usuario6 = new Usuario(null, "Alana Sandra", "as@gmail.com");
 		
-		repository.saveAll(Arrays.asList(usuario1, usuario2, usuario3, usuario4, usuario5, usuario6));
+		Post post1 = new Post(null, sdf.parse("21/05/2018"), "Nova postagem", "Postagem sem texto.", usuario1);
+		Post post2 = new Post(null, sdf.parse("28/08/2018"), "Viagem", "Viagem adiada para...", usuario2);
 		
+		usuarioRepository.saveAll(Arrays.asList(usuario1, usuario2, usuario3, usuario4, usuario5, usuario6));
+		postRepository.saveAll(Arrays.asList(post1, post2));
 		
 		
 	}
