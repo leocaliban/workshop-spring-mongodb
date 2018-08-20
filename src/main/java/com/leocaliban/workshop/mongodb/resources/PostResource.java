@@ -1,5 +1,6 @@
 package com.leocaliban.workshop.mongodb.resources;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,22 @@ public class PostResource {
 		
 		texto = URL.decodeParam(texto);
 		List<Post> lista = service.buscarPorTitulo(texto);
+		
+		return ResponseEntity.ok().body(lista);
+	}
+	
+	@RequestMapping(value = "/buscacompleta", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> buscaCompleta(
+			@RequestParam(value = "texto", defaultValue = "") String texto,
+			@RequestParam(value = "dataMinima", defaultValue = "") String dataMinima,
+			@RequestParam(value = "dataMaxima", defaultValue = "") String dataMaxima){
+		
+		texto = URL.decodeParam(texto);
+		
+		Date min = URL.converterData(dataMinima, new Date(0L));
+		Date max = URL.converterData(dataMaxima, new Date());
+		
+		List<Post> lista = service.buscaCompleta(texto, min, max);
 		
 		return ResponseEntity.ok().body(lista);
 	}

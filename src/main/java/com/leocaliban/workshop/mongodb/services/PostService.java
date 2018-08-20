@@ -1,5 +1,6 @@
 package com.leocaliban.workshop.mongodb.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,11 @@ public class PostService {
 	
 	public List<Post> buscarPorTitulo(String texto){
 		return repository.buscarPorTitulo(texto);
+	}
+	
+	public List<Post> buscaCompleta(String texto, Date dataMinima, Date dataMaxima){
+		dataMaxima = new Date(dataMaxima.getTime() + 24 * 60 * 60 * 1000);
+		return repository.buscaCompleta(texto, dataMinima, dataMaxima);
 	}
 	
 }
