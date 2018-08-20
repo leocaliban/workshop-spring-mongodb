@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import com.leocaliban.workshop.mongodb.domain.Post;
 import com.leocaliban.workshop.mongodb.domain.Usuario;
 import com.leocaliban.workshop.mongodb.dto.AutorDTO;
+import com.leocaliban.workshop.mongodb.dto.ComentarioDTO;
 import com.leocaliban.workshop.mongodb.repository.PostRepository;
 import com.leocaliban.workshop.mongodb.repository.UsuarioRepository;
 
@@ -42,7 +43,25 @@ public class Instantioation implements CommandLineRunner{
 		usuarioRepository.saveAll(Arrays.asList(usuario1, usuario2, usuario3, usuario4, usuario5, usuario6));
 		
 		Post post1 = new Post(null, sdf.parse("21/05/2018"), "Nova postagem", "Postagem sem texto.", new AutorDTO(usuario1));
-		Post post2 = new Post(null, sdf.parse("28/08/2018"), "Viagem", "Viagem adiada para...", new AutorDTO(usuario2));
+		Post post2 = new Post(null, sdf.parse("28/08/2018"), "Viagem", "Viagem adiada para...", new AutorDTO(usuario1));
+		
+		ComentarioDTO comentario1 = new ComentarioDTO(
+										"Obrigado por não postar nada, parabéns", 
+										sdf.parse("28/08/2018"), 
+										new AutorDTO(usuario6));
+		
+		ComentarioDTO comentario2 = new ComentarioDTO(
+										"Boa viagem!!!", 
+										sdf.parse("21/05/2018"), 
+										new AutorDTO(usuario4));
+		
+		ComentarioDTO comentario3 = new ComentarioDTO(
+										"Ele adiou sua burra...", 
+										sdf.parse("21/05/2018"), 
+										new AutorDTO(usuario5));
+		
+		post1.getComentarios().addAll(Arrays.asList(comentario1));
+		post2.getComentarios().addAll(Arrays.asList(comentario2, comentario3));
 		
 		postRepository.saveAll(Arrays.asList(post1, post2));
 		

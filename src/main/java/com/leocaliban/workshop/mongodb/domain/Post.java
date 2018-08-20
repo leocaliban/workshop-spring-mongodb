@@ -1,11 +1,14 @@
 package com.leocaliban.workshop.mongodb.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.leocaliban.workshop.mongodb.dto.AutorDTO;
+import com.leocaliban.workshop.mongodb.dto.ComentarioDTO;
 
 @Document(collection = "post")
 public class Post implements Serializable{
@@ -17,6 +20,8 @@ public class Post implements Serializable{
 	private String titulo;
 	private String texto;
 	private AutorDTO autor;
+	
+	private List<ComentarioDTO> comentarios = new ArrayList<>();
 	
 	
 	public Post() {
@@ -69,6 +74,14 @@ public class Post implements Serializable{
 
 	public void setAutor(AutorDTO autor) {
 		this.autor = autor;
+	}
+
+	public List<ComentarioDTO> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<ComentarioDTO> comentarios) {
+		this.comentarios = comentarios;
 	}
 
 	@Override
