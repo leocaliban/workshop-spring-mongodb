@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.leocaliban.workshop.mongodb.domain.Post;
 import com.leocaliban.workshop.mongodb.domain.Usuario;
 import com.leocaliban.workshop.mongodb.dto.UsuarioDTO;
 import com.leocaliban.workshop.mongodb.services.UsuarioService;
@@ -59,6 +60,12 @@ public class UsuarioResource {
 	public ResponseEntity<Void> deletar(@PathVariable String id){
 		service.deletar(id);
 		return ResponseEntity.noContent().build();
+	}
+	
+	@RequestMapping(value = "/{id}/posts", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> buscarPosts(@PathVariable String id){
+		Usuario objeto = service.buscarPorId(id);
+		return ResponseEntity.ok().body(objeto.getPosts());
 	}
 
 }
