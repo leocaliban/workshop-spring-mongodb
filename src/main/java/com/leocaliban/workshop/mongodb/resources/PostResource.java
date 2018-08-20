@@ -7,9 +7,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leocaliban.workshop.mongodb.domain.Post;
+import com.leocaliban.workshop.mongodb.resources.util.URL;
 import com.leocaliban.workshop.mongodb.services.PostService;
 
 @RestController
@@ -30,5 +32,16 @@ public class PostResource {
 		Post objeto = service.buscarPorId(id);
 		return ResponseEntity.ok().body(objeto);
 	}
+	
+	@RequestMapping(value = "/buscartitulo", method = RequestMethod.GET)
+	public ResponseEntity<List<Post>> buscarPorTitulo(@RequestParam(value = "texto", defaultValue = "") String texto){
+		
+		texto = URL.decodeParam(texto);
+		List<Post> lista = service.buscarPorTitulo(texto);
+		
+		return ResponseEntity.ok().body(lista);
+	}
+	
+	
 
 }
